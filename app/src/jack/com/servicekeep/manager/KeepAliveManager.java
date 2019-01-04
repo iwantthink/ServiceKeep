@@ -62,7 +62,11 @@ public enum KeepAliveManager {
                 String aliasFile = "helper";
                 final String serviceName = context.getPackageName() + "/jack.com.servicekeep.service.WorkService";
                 LogUtils.d(TAG, "serviceName-----------" + serviceName);
-                NativeRuntime.INSTANCE.runExecutable(context.getPackageName(), executable, aliasFile, serviceName);
+                NativeRuntime.INSTANCE.runExecutable(context.getPackageName(),
+                        executable,
+                        aliasFile,
+                        serviceName);
+
                 //开启service
                 new Thread(new Runnable() {
                     @Override
@@ -89,7 +93,9 @@ public enum KeepAliveManager {
     private void startJobScheduler(Context context) {
         if (context != null) {
             LogUtils.d(TAG, "KeepAliveManager--------startJobScheduler");
-            JobScheduler jobScheduler = (JobScheduler) context.getSystemService(JOB_SCHEDULER_SERVICE);
+            JobScheduler jobScheduler =
+                    (JobScheduler) context.getSystemService(JOB_SCHEDULER_SERVICE);
+
             //开启唤醒PushService的定时任务
             ComponentName componentName = new ComponentName("jack.com.servicekeep",
                     "jack.com.servicekeep.service.KeepAliveJobSchedulerService");
@@ -99,7 +105,9 @@ public enum KeepAliveManager {
             JobInfo jobInfo = new JobInfo.Builder(JOB_ID, jobService)
                     .setMinimumLatency(1000)  //延时1s后执行
                     .setPersisted(true)       //需要权限RECEIVE_BOOT_COMPLETED
-                    .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_LINEAR) //线性重试方案
+                    .setBackoffCriteria(
+                            TimeUnit.MINUTES.toMillis(10),
+                            JobInfo.BACKOFF_POLICY_LINEAR) //线性重试方案
                     .build();
             int result = jobScheduler.schedule(jobInfo);
             if (result == RESULT_SUCCESS) {

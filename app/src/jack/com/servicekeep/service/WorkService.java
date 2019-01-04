@@ -11,13 +11,10 @@ import java.util.TimerTask;
 import jack.com.servicekeep.utils.LogUtils;
 
 
-
-
-
-
 /**
  * 需要保活的业务服务
  * 完美世界
+ *
  * @Author Jack
  * @Date 2017/11/22 18:02
  * @Copyright:wanmei.com Inc. All rights reserved.
@@ -30,10 +27,11 @@ public class WorkService extends Service {
 
     /**
      * 停止服务
+     *
      * @param context
      */
-    public static void stopservice(Context context){
-        if(context != null){
+    public static void stopservice(Context context) {
+        if (context != null) {
             LogUtils.d(TAG, "WorkService ------- stopService");
             Intent intent = new Intent(context, WorkService.class);
             context.stopService(intent);
@@ -42,11 +40,12 @@ public class WorkService extends Service {
 
     /**
      * 开启PushService
+     *
      * @param context
      */
     public static void startService(Context context) {
         LogUtils.d(TAG, "WorkService ------- startService");
-        if(context != null) {
+        if (context != null) {
             Intent intent = new Intent(context, WorkService.class);
             intent.setAction(ACTION_START);
             context.startService(intent);
@@ -59,14 +58,21 @@ public class WorkService extends Service {
         return null;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        LogUtils.d(TAG, "onCreate");
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtils.d(TAG, "onStartCommand");
         //todo 启动子线程执行耗时操作
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                LogUtils.d(TAG, "WorkService ---------- onStartCommand Service工作了");
+                LogUtils.d(TAG, "WorkService ----------  Service工作了");
             }
         };
         Timer timer = new Timer();
